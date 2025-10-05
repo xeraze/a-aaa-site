@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #FFFFFF;
+            color: #000000;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.2em;
+            margin: 20px;
+            padding: 0;
+            word-wrap: break-word;
+            overflow-x: hidden;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background-color: black;
+            margin-left: 2px;
+            animation: blink 0.8s infinite;
+            transform: translateY(2px);
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="text-container"></div>
+
+    <script>
+        const container = document.getElementById('text-container');
+        const charToType = 'а';
+        
+        const typingDelayMin = 5; 
+        const typingDelayMax = 15; 
+
+        function updateCursor() {
+            const existingCursor = container.querySelector('.cursor');
+            if (existingCursor) {
+                existingCursor.remove();
+            }
+            
+            const cursor = document.createElement('span');
+            cursor.className = 'cursor';
+            container.appendChild(cursor);
+            
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        function typeChar() {
+            const existingCursor = container.querySelector('.cursor');
+            if (existingCursor) {
+                existingCursor.remove();
+            }
+
+            const charNode = document.createTextNode(charToType);
+            container.appendChild(charNode);
+            
+            updateCursor();
+
+            const delay = Math.floor(Math.random() * (typingDelayMax - typingDelayMin + 1)) + typingDelayMin;
+            
+            setTimeout(typeChar, delay);
+        }
+
+        window.onload = function() {
+            updateCursor();
+            typeChar();
+        };
+
+    </script>
+</body>
+</html>
