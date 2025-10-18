@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Verification</title>
+    
+    <meta name="google-site-verification" content="2S2RyPGYBpfxVvkl98WJofBIdMSBvKZinbN-ulDW2c4" />
+
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
     <style>
         body {
@@ -35,8 +39,7 @@
 </head>
 <body>
 
-    <div style="display:none;">google-site-verification: google79c1ff07f9915154.html</div>
-    <div id="text-container"></div>
+ <div id="text-container"></div>
 
     <script>
         const container = document.getElementById('text-container');
@@ -66,14 +69,13 @@
 
             const charNode = document.createTextNode(charToType);
             container.appendChild(charNode);
-            
+        
             updateCursor();
 
             const delay = Math.floor(Math.random() * (typingDelayMax - typingDelayMin + 1)) + typingDelayMin;
             
             setTimeout(typeChar, delay);
         }
-
         window.onload = function() {
             updateCursor();
             typeChar();
