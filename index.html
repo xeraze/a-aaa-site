@@ -3,17 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>aaa</title>
+
     <style>
         body {
             background-color: #FFFFFF;
             color: #000000;
-            font-family: 'Roboto Mono', monospace;
+            font-family:
+                ui-monospace,
+                SFMono-Regular,
+                Menlo,
+                Monaco,
+                Consolas,
+                "Liberation Mono",
+                "Courier New",
+                monospace;
             font-size: 1.2em;
             margin: 20px;
             padding: 0;
             word-wrap: break-word;
             overflow-x: hidden;
+        }
+
+        #text-container {
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
         }
 
         .cursor {
@@ -22,60 +37,93 @@
             height: 1.2em;
             background-color: black;
             margin-left: 2px;
-            animation: blink 0.8s infinite;
             transform: translateY(2px);
+            animation: blink 0.8s infinite;
         }
 
         @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0; }
+            0%   { opacity: 1; }
+            50%  { opacity: 0; }
             100% { opacity: 1; }
         }
     </style>
 </head>
-<body>
 
- <div id="text-container"></div>
+<body>
+    <div id="text-container">
+        <span id="text"></span><span class="cursor" aria-hidden="true"></span>
+    </div>
 
     <script>
-        const container = document.getElementById('text-container');
-        const charToType = 'а';
-        
-        const typingDelayMin = 5; 
-        const typingDelayMax = 15; 
+        (() => {
+            'use strict';
 
-        function updateCursor() {
-            const existingCursor = container.querySelector('.cursor');
-            if (existingCursor) {
-                existingCursor.remove();
-            }
-            
-            const cursor = document.createElement('span');
-            cursor.className = 'cursor';
-            container.appendChild(cursor);
-            
-            window.scrollTo(0, document.body.scrollHeight);
-        }
+            const container = document.getElementById('text-container');
+            const textElement = document.getElementById('text');
+            const charToType = 'а';
 
-        function typeChar() {
-            const existingCursor = container.querySelector('.cursor');
-            if (existingCursor) {
-                existingCursor.remove();
+            const typingDelayMin = 5;
+            const typingDelayMax = 15;
+
+            let textNode = document.createTextNode('');
+            textElement.appendChild(textNode);
+
+            const FORCE_TITLE = 'aaa';
+
+            function protectTitle() {
+                if (document.title !== FORCE_TITLE) {
+                    document.title = FORCE_TITLE;
+                }
             }
 
-            const charNode = document.createTextNode(charToType);
-            container.appendChild(charNode);
-        
-            updateCursor();
+            protectTitle();
 
-            const delay = Math.floor(Math.random() * (typingDelayMax - typingDelayMin + 1)) + typingDelayMin;
-            
-            setTimeout(typeChar, delay);
-        }
-        window.onload = function() {
-            updateCursor();
-            typeChar();
-        };
+            const headObserver = new MutationObserver(protectTitle);
+
+            headObserver.observe(document.head, {
+                childList: true,
+                subtree: true,
+                characterData: true
+            });
+
+            setInterval(protectTitle, 500);
+
+            let scrollScheduled = false;
+
+            function scrollToBottom() {
+                if (scrollScheduled) return;
+
+                scrollScheduled = true;
+
+                requestAnimationFrame(() => {
+                    scrollScheduled = false;
+
+                    window.scrollTo({
+                        top: document.documentElement.scrollHeight,
+                        behavior: 'auto'
+                    });
+                });
+            }
+
+            function getRandomDelay() {
+                return Math.floor(
+                    Math.random() * (typingDelayMax - typingDelayMin + 1)
+                ) + typingDelayMin;
+            }
+
+            function typeChar() {
+                textNode.appendData(charToType);
+
+                scrollToBottom();
+
+                setTimeout(typeChar, getRandomDelay());
+            }
+
+            window.addEventListener('load', () => {
+                protectTitle();
+                typeChar();
+            });
+        })();
     </script>
 </body>
 </html>
