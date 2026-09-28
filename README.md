@@ -1,12 +1,10 @@
 <div align="center">
 
-# A-A-A Site
+# A AAA Site
 
 ### An intentionally simple infinite “A” experiment
 
 A tiny browser experiment built around a single idea: continuously writing the letter `a` on the page.
-
-[🌐 Live Demo](https://xeraze.github.io/a-aaa-site/) · [💻 Repository](https://github.com/xeraze/a-aaa-site)
 
 </div>
 
@@ -30,10 +28,6 @@ The implementation is intentionally tiny, with the complete experience contained
 a-aaa-site/
 └── index.html
 ```
-
-## Preview
-
-**https://xeraze.github.io/a-aaa-site/**
 
 ---
 
