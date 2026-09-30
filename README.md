@@ -3,7 +3,7 @@
 # A AAA Site
 
 ### An intentionally simple infinite “A” experiment
-
+![A aaa site](assets/a-aaa-site.png)
 A tiny browser experiment built around a single idea: continuously writing the letter `a` on the page.
 
 </div>
